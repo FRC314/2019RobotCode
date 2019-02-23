@@ -5,8 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
-import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -14,7 +12,6 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.robotmechanism.CargoManagement;
 import frc.robot.robotmechanism.Drivetrain;
 import frc.robot.robotmechanism.HatchMech;
@@ -30,8 +27,8 @@ public class Robot extends TimedRobot {
     VictorSPX mtr_R_Drive_2 = new VictorSPX(4);
     VictorSPX mtr_R_Drive_3 = new VictorSPX(5);
     //2 Encoders
-    Encoder enc_Drive = new Encoder(1, 2, false, Encoder.EncodingType.k4X);
-    Encoder enc_L_Drive = new Encoder(3, 4, false, Encoder.EncodingType.k4X);
+    Encoder enc_Drive = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+    Encoder enc_L_Drive = new Encoder(2, 3, false, Encoder.EncodingType.k4X);
     AHRS imu_Drive = new AHRS(SerialPort.Port.kMXP);
     Limelight lml_Vision = new Limelight();
     Drivetrain rbt_Drivetrain = new Drivetrain(mtr_L_Drive_1, mtr_R_Drive_1, enc_Drive, imu_Drive, lml_Vision);
@@ -40,8 +37,8 @@ public class Robot extends TimedRobot {
 
     //Hatch Mech
       VictorSPX mtr_Hatch = new VictorSPX(6);
-      Encoder enc_HatchAngle = new Encoder(5, 6, false, Encoder.EncodingType.k4X);
-      DigitalInput lim_Hatch = new DigitalInput(0);
+      Encoder enc_HatchAngle = new Encoder(4, 5, false, Encoder.EncodingType.k4X);
+      DigitalInput lim_Hatch = new DigitalInput(6);
 
       HatchMech rbt_HatchMech = new HatchMech(mtr_Hatch, enc_HatchAngle, lim_Hatch);
     //Cargo Intake
@@ -49,11 +46,9 @@ public class Robot extends TimedRobot {
       //Cargo Intake Position
       VictorSPX mtr_IntakePosition = new VictorSPX(8);
       Potentiometer pot_IntakeAngle = new AnalogPotentiometer(1, 270, 0);
-      DigitalInput lim_IntakeUp = new DigitalInput(1);
-      DigitalInput lim_IntakeDown = new DigitalInput(2);
-      DigitalInput pho_Uptake = new DigitalInput(3);
+      DigitalInput pho_Uptake = new DigitalInput(7);
       
-    CargoManagement rbt_CargoManagement = new CargoManagement(mtr_IntakePosition, mtr_Intake, lim_IntakeUp, lim_IntakeDown, pho_Uptake);
+    CargoManagement rbt_CargoManagement = new CargoManagement(mtr_IntakePosition, mtr_Intake, pho_Uptake);
   
   //Controls
     XboxController ctl_Driver = new XboxController(0);
@@ -84,17 +79,15 @@ public class Robot extends TimedRobot {
         mtr_R_Drive_3.follow(mtr_R_Drive_1);
 
         rbt_Drivetrain.ConfigDistanceOutputRange(-0.5, 0.5);
-    dsh_DistanceP.set(0.1);
-    dsh_DistanceI.set(0.01);
-    dsh_DistanceD.set(0.06);
+    dsh_DistanceP.set(0.1);//0.1
+    dsh_DistanceI.set(0.01);//0.01
+    dsh_DistanceD.set(0.06);//0.06
 
   }
 
   @Override
   public void robotPeriodic() {
     rbt_Drivetrain.ConfigureDistancePID(dsh_DistanceP.get(), dsh_DistanceI.get(), dsh_DistanceD.get());
-    SmartDashboard.putNumber("Left Distance", enc_L_Drive.get());
-    SmartDashboard.putNumber("Right", enc_Drive.get());
   }
 
   @Override

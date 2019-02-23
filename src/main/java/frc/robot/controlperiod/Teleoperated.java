@@ -62,10 +62,10 @@ public class Teleoperated {
             rbt_CargoManagement.setIntakePower(0.0);
         }
 
-        if (ctl_Operator.getXButton() && !rbt_CargoManagement.isUp()) {
+        if (ctl_Operator.getXButton()) {
             rbt_CargoManagement.setRotationPower(1.0);
         }
-        else if (ctl_Operator.getYButton() && !rbt_CargoManagement.isDown()) {
+        else if (ctl_Operator.getYButton()) {
             rbt_CargoManagement.setRotationPower(-1.0);
         }
         else {

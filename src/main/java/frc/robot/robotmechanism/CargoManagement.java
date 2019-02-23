@@ -13,17 +13,13 @@ public class CargoManagement {
 
     private double m_Power = 0.0;
     private double m_RotationPower = 0.0;
-    private DigitalInput lim_IntakeUp;
-    private DigitalInput lim_IntakeDown;
 
     private DigitalInput pho_Uptake;
     private boolean isObject = false;
 
-    public CargoManagement(VictorSPX mtr_IntakeRotate, VictorSPX mtr_Intake, DigitalInput lim_IntakeUp, DigitalInput lim_IntakeDown, DigitalInput pho_Uptake) {
+    public CargoManagement(VictorSPX mtr_IntakeRotate, VictorSPX mtr_Intake, DigitalInput pho_Uptake) {
         this.mtr_IntakeRotate = mtr_IntakeRotate;
         this.mtr_Intake = mtr_Intake;
-        this.lim_IntakeUp = lim_IntakeUp;
-        this.lim_IntakeDown = lim_IntakeDown;
         this.pho_Uptake = pho_Uptake;
     }
 
@@ -37,14 +33,6 @@ public class CargoManagement {
 
     public boolean isObjectDetected() {
         return isObject;
-    }
-
-    public Boolean isUp() {
-        return lim_IntakeUp.get();
-    }
-
-    public Boolean isDown() {
-        return lim_IntakeUp.get();
     }
 
     public void update() {
